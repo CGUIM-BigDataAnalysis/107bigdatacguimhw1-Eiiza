@@ -1,6 +1,6 @@
 107-2 大數據分析方法 作業一
 ================
-put your name here
+B0544225 Hsu-En Chan
 
 搞不清楚各行各業的薪資差異嗎? 念研究所到底對第一份工作的薪資影響有多大? CP值高嗎? 透過分析**初任人員平均經常性薪資**- [開放資料連結](https://data.gov.tw/dataset/6647)，可初步了解台灣近幾年各行各業、各學歷的起薪。
 
@@ -11,8 +11,15 @@ put your name here
 
 ``` r
 library(jsonlite)
+```
+
+    ## Warning: package 'jsonlite' was built under R version 3.5.3
+
+``` r
 library(dplyr)
 ```
+
+    ## Warning: package 'dplyr' was built under R version 3.5.3
 
     ## 
     ## Attaching package: 'dplyr'
