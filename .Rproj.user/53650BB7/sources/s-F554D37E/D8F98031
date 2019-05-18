@@ -5,14 +5,14 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1283929558",
+    "hash" : "0",
     "id" : "D8F98031",
-    "lastKnownWriteTime" : 1558150065,
-    "last_content_update" : 1558150065087,
+    "lastKnownWriteTime" : 1558150145,
+    "last_content_update" : 1558150145490,
     "path" : "C:/WorkspaceR/107bigdatacguimhw1-Eiiza/SalaryAnalysis.Rmd",
     "project_path" : "SalaryAnalysis.Rmd",
     "properties" : {
-        "cursorPosition" : "23,1",
+        "cursorPosition" : "18,105",
         "scrollLine" : "8"
     },
     "relative_order" : 2,
