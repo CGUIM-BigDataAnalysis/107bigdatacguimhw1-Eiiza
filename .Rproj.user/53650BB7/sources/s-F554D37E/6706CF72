@@ -5,15 +5,17 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "230839117",
+    "hash" : "0",
     "id" : "6706CF72",
-    "lastKnownWriteTime" : 1557545597,
-    "last_content_update" : 1557545597,
+    "lastKnownWriteTime" : 1558149547,
+    "last_content_update" : 1558149547117,
     "path" : "C:/WorkspaceR/107bigdatacguimhw1-Eiiza/DataAnalysis.R",
     "project_path" : "DataAnalysis.R",
     "properties" : {
+        "cursorPosition" : "11,0",
+        "scrollLine" : "0"
     },
-    "relative_order" : 2,
+    "relative_order" : 1,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"
