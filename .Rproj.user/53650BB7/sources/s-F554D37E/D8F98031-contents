@@ -14,14 +14,14 @@ library(jsonlite)
 library(dplyr)
 library(readr)
 
-#import data
-CarrerSalsryByIndustry103<-read_csv("C:/Users/hsuen/Downloads/SalaryTable/103CarrerSalsryByIndustry.csv")
-CarrerSalsryByIndustry106<-read_csv("C:/Users/hsuen/Downloads/SalaryTable/106CarrerSalsryByIndustry.csv")
-#rename & ture type
-CarrerSalsryByIndustry103<-rename(CarrerSalsryByIndustry103,Salary=`經常性薪資-薪資`)
-CarrerSalsryByIndustry106<-rename(CarrerSalsryByIndustry106,Salary=`經常性薪資-薪資`)
-CarrerSalsryByIndustry103$Salary<-as.numeric(CarrerSalsryByIndustry103$Salary)
-CarrerSalsryByIndustry106$Salary<-as.numeric(CarrerSalsryByIndustry106$Salary)
+##import data
+#CarrerSalsryByIndustry103<-read_csv("C:/Users/hsuen/Downloads/SalaryTable/103CarrerSalsryByIndustry.csv")
+#CarrerSalsryByIndustry106<-read_csv("C:/Users/hsuen/Downloads/SalaryTable/106CarrerSalsryByIndustry.csv")
+##rename & ture type
+#CarrerSalsryByIndustry103<-rename(CarrerSalsryByIndustry103,Salary=`經常性薪資-薪資`)
+#CarrerSalsryByIndustry106<-rename(CarrerSalsryByIndustry106,Salary=`經常性薪資-薪資`)
+#CarrerSalsryByIndustry103$Salary<-as.numeric(CarrerSalsryByIndustry103$Salary)
+#CarrerSalsryByIndustry106$Salary<-as.numeric(CarrerSalsryByIndustry106$Salary)
 ```
 
 ### 106年度薪資較103年度薪資高的職業有哪些? 
