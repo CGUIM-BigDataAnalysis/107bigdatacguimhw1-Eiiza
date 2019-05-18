@@ -28,8 +28,8 @@ CarrerSalsryByIndustry106$Salary<-as.numeric(CarrerSalsryByIndustry106$Salary)
 ```{r compare103106}
 #這是R Code Chunk
 S106BS103<-filter(CarrerSalsryByIndustry106,CarrerSalsryByIndustry106$Salary>CarrerSalsryByIndustry103$Salary)
-S106BS103[2]
-knitr::kable(iris)
+
+knitr::kable(S106BS103[2])
 ```
 
 ### 提高超過5%的的職業有哪些? 
