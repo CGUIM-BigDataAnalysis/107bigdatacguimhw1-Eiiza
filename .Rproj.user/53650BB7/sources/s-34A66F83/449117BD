@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1558346027777.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "449117BD",
+    "lastKnownWriteTime" : 3419473789575321445,
+    "last_content_update" : 1558346027777,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "F0CE10C3",
+        "caption" : "eduSalary103",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=eduSalary103&cache_key=F0CE10C3",
+        "displayedObservations" : "140",
+        "environment" : "",
+        "object" : "eduSalary103",
+        "preview" : "0",
+        "totalObservations" : "140",
+        "variables" : "14"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

@@ -7,13 +7,13 @@
     "folds" : "",
     "hash" : "0",
     "id" : "6706CF72",
-    "lastKnownWriteTime" : 1558149547,
-    "last_content_update" : 1558149547117,
+    "lastKnownWriteTime" : 1558347276,
+    "last_content_update" : 1558347276902,
     "path" : "C:/WorkspaceR/107bigdatacguimhw1-Eiiza/DataAnalysis.R",
     "project_path" : "DataAnalysis.R",
     "properties" : {
-        "cursorPosition" : "11,0",
-        "scrollLine" : "0"
+        "cursorPosition" : "75,0",
+        "scrollLine" : "64"
     },
     "relative_order" : 1,
     "source_on_save" : false,
