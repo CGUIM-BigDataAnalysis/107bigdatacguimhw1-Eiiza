@@ -48,6 +48,10 @@ SalaryProve0306<-filter(eduSalary0306,SalaryDiffer>1) %>% arrange(desc(SalaryDif
 knitr::kable(SalaryProve0306)
 ```
 
+由表格可以知道106薪資較103薪資高的前10名中第一名職業是其他服務業的技術人員，依序下來是住宿及餐飲業的服務銷售人員、用水供應及汙染整治業的技術人員及助理專業人員等。
+
+第一名職業：其他服務業的技術人員的103年薪資為24688、106年薪資為27929、薪資成長比率為113%。
+
 ### 提高超過5%的的職業有哪些? 
 
 ```{r over5}
@@ -55,8 +59,11 @@ knitr::kable(SalaryProve0306)
 #choose SalaryDiffer bigger than 1.05
 SalaryProveMore0306<-filter(eduSalary0306,SalaryDiffer>1.05)
 
-knitr::kable(SalaryProveMore0306)
+knitr::kable(arrange(SalaryProveMore0306,desc(SalaryDiffer)))
+nrow(SalaryProveMore0306)
 ```
+
+由上面表格可以知道總共有58個職業薪資提高超過5%，全部職業總共有140個，不到全部職業的一半，好像是有點少。
 
 ### 主要的職業種別是哪些種類呢?
 
@@ -68,6 +75,8 @@ for(n in 1:length(Career)){
 }
 table(unlist(Career)) %>% knitr::kable()
 ```
+
+從上表可以知道，用水供應及汙染整治業的職業種別最多，總共有六個。
 
 ## 男女同工不同酬現況分析
 
@@ -103,13 +112,37 @@ Salary3<-filter(Salary3456,SalaryFM103<100) %>% arrange(SalaryFM103) %>% head(10
 Salary4<-filter(Salary3456,SalaryFM104<100) %>% arrange(SalaryFM104) %>% head(10) %>% select(Career,SalaryFM104)
 Salary5<-filter(Salary3456,SalaryFM105<100) %>% arrange(SalaryFM105) %>% head(10) %>% select(Career,SalaryFM105)
 Salary6<-filter(Salary3456,SalaryFM106<100) %>% arrange(SalaryFM106) %>% head(10) %>% select(Career,SalaryFM106)
+```
 
+```{r 103 salary table}
 knitr::kable(Salary3)
+```
+
+第一個表格是103年的薪資男女比例差異前10名，差異最大的是礦業及土石採取業的技藝、機械設備操作及組裝人員，薪資男女比例值為84.97。
+
+```{r 104 salary table}
 knitr::kable(Salary4)
+```
+
+第二個表格是104年的薪資男女比例差異前10名，差異最大的是電力及燃氣供應業的技藝、機械設備操作及組裝人員，薪資男女比例值為91.69。
+
+在103薪資男女比例是第一名的是礦業及土石採取業的技藝、機械設備操作及組裝人員從第一名跑到第四名，薪資男女比例值為93.10，看起來進步很多。
+
+```{r 105 salary table}
 knitr::kable(Salary5)
+```
+
+第三個表格是105年的薪資男女比例差異前10名，差異最大的是不動產業的技藝、機械設備操作及組裝人員，薪資男女比例值為91.38。
+礦業及土石採取業的技藝、機械設備操作及組裝人員已經沒有出現在前10名了。
+
+```{r 106 salary table}
 knitr::kable(Salary6)
 
 ```
+
+第四個表格是106年的薪資男女比例差異前10名，差異最大的是電力及燃氣供應業的技藝、機械設備操作及組裝人員，薪資男女比例值為95.51。
+
+從103到106年的薪資男女比例來看，第一名的薪資男女比例有逐漸在提高，也就是說，男女薪資差異有逐漸在縮小。
 
 ### 哪些行業女生薪資比男生薪資多? 
 
@@ -119,13 +152,32 @@ SalaryF3<-filter(Salary3456,SalaryFM103>100) %>% arrange(desc(SalaryFM103)) %>% 
 SalaryF4<-filter(Salary3456,SalaryFM104>100) %>% arrange(desc(SalaryFM104)) %>% head(10) %>% select(Career,SalaryFM104)
 SalaryF5<-filter(Salary3456,SalaryFM105>100) %>% arrange(desc(SalaryFM105)) %>% head(10) %>% select(Career,SalaryFM105)
 SalaryF6<-filter(Salary3456,SalaryFM106>100) %>% arrange(desc(SalaryFM106)) %>% head(10) %>% select(Career,SalaryFM106)
-
-knitr::kable(SalaryF3)
-knitr::kable(SalaryF4)
-knitr::kable(SalaryF5)
-knitr::kable(SalaryF6)
-
 ```
+
+```{r 103 salaryF table}
+knitr::kable(SalaryF3)
+```
+
+第一個表格甚麼都沒有，也就是說大多職業的薪資，男生都較女生高。
+
+```{r 104 salaryF table}
+knitr::kable(SalaryF4)
+```
+
+第二個表格是104年的薪資男女比例差異女生比男生薪資高的前10名，雖然說要列出前10名，但是看起來只有一種職業女生的薪資比男生高，是專業、科學及技術服務業的技藝、機械設備操作及組裝人員。沒有其他職業了。
+
+```{r 105 salaryF table}
+knitr::kable(SalaryF5)
+```
+
+第三個表格是105年的薪資男女比例差異女生比男生薪資高的前10名，還是一樣只有一種職業，是金融及保險業的專業人員。
+
+```{r 106 salaryF table}
+knitr::kable(SalaryF6)
+```
+
+第四個表格是106年的薪資男女比例差異女生比男生薪資高的前10名，還是一樣只有一種職業，是資訊及通訊傳播業的服務及銷售工作人員。
+由上面四個表格來看，女生比男生薪資高的很少，103年還幾乎沒有。
 
 ## 研究所薪資差異
 
@@ -150,6 +202,8 @@ Salary106UI$proportion<-Salary106UI$InstituteS/Salary106UI$UniversityS
 arrange(Salary106UI,desc(proportion)) %>% head(10) %>% knitr::kable()
 ```
 
+上面的表格是念研究所最划算的前十名。礦業及土石採取業的事務支援人員是研究所學歷薪資與大學學歷薪資增加比例最多，共增加了0.21左右。
+
 ## 我有興趣的職業別薪資狀況分析
 
 ### 有興趣的職業別篩選，呈現薪資
@@ -161,6 +215,8 @@ knitr::kable(ITSalary)
 
 ```
 
+上面的表格是我有興趣的職業別薪資狀況，我選擇了資訊及通訊傳播業。可以看的出來，我即使只有大學畢業，沒有讀研究所，還是領超過22K。但是想要賺比較多了話，選擇資訊及通訊傳播業的專業人員可以賺比較多。
+
 ### 這些職業別研究所薪資與大學薪資差多少呢？
 
 ```{r likeGrad}
@@ -170,3 +226,8 @@ knitr::kable(ITSalary)
 
 ```
 
+上面的表格是資訊及通訊傳播業研究所薪資與大學薪資差。
+如果讀研究所了話，會比只有大學學歷薪資多出3400以上。如果是專業人員了話可以多出4728元。
+
+但是還是不會改變我大學一畢業不想讀研究所的想法。說不定我比讀研究所的同學先工作的兩年，我的薪水就比原本多超過4718元。
+但是我還是會讀研究所啦，只是不會一畢業就讀。

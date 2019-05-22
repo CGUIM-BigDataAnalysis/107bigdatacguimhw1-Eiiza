@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1558531952028.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "79C19761",
+    "lastKnownWriteTime" : 27303570963497060,
+    "last_content_update" : 1558531952028,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "98f3d1e29cb14f90af2f618f0034433f",
+        "name" : "Career",
+        "title" : "Career"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}

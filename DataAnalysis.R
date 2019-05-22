@@ -34,13 +34,15 @@ SalaryProve0306<-filter(eduSalary0306,SalaryDiffer>1) %>% arrange(desc(SalaryDif
 
 #choose SalaryDiffer bigger than 1.05
 SalaryProveMore0306<-filter(eduSalary0306,SalaryDiffer>1.05)
+nrow(SalaryProveMore0306)
+arrange(SalaryProveMore0306,desc(SalaryDiffer))
 
 #substring & take out the values
 Career<-strsplit(SalaryProveMore0306$Career,"-")
 for(n in 1:length(Career)){
   Career[n]<-Career[[n]][1]
 }
-table(unlist(Career)) 
+table(unlist(Career))
 
 
 #2
