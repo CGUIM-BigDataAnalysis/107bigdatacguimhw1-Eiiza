@@ -1,0 +1,77 @@
+#map
+install.packages("ggmap")
+install.packages(c("choroplethr","choroplethrMaps")) 
+
+library(ggmap)
+
+#get TaoYoun google map & point CGU
+
+register_google(key = "AIzaSyCkIjUTh2k7qi3HS73RT_NHe7P_tZkTCEY")
+TYMap <- get_googlemap(center = c(lon=121.20,lat=25.00),zoom = 11,language = "zh-TW")
+CGUmap<-ggmap(TYMap)+geom_point(aes(x= 121.389539,y= 25.035225,color ="red",size=5))+guides(size=FALSE)+guides(colour=F)
+
+#
+
+POLIO_Incidence <- read.csv("C:/Users/hsuen/Downloads/POLIO_Incidence.csv")
+
+library(reshape2)
+pi <- melt(POLIO_Incidence,id.vars = "YEAR")
+pi$value<- gsub("-",NA,pi$value)
+pi$value<-as.numeric(pi$value)
+library(ggplot2)
+ggplot(pi, aes(YEAR, variable)) + geom_tile(aes(fill = value),colour = "white")+ scale_fill_gradient(low = "white",high = "steelblue") 
+
+#practice in class bike
+
+library(jsonlite)
+library(ggmap)
+library(ggplot2)
+  
+tybike<-fromJSON("http://data.tycg.gov.tw/api/v1/rest/datastore/a1b4714b-3b75-4ff8-a8f2-cc377e4eaa0f?format=json")
+  
+register_google(key = "AIzaSyCkIjUTh2k7qi3HS73RT_NHe7P_tZkTCEY")
+  
+TYMap <- get_googlemap(center = c(lon=121.20,lat=25.00),zoom = 11,language = "zh-TW")
+  
+tybikeL<-data.frame(lat=as.numeric(tybike$lat),lng=as.numeric(tybike$lng),sbi=as.numeric(tybike$sbi),stringsAsFactors = F)
+str(tybikeL)
+  #ggmap是要用data.frame不能用list，然後data type 要正確
+
+tybikemap<-ggmap(TYMap)+geom_point(data=tybikeL,aes(x= tybikeL$lng,y= tybikeL$lat,size=tybikeL$sbi),color ="red")+guides(colour=F)
+
+#practice in class heat
+
+library(readr)
+library(reshape2)
+library(dplyr)
+
+POLIO_Incidence <- read.csv("C:/Users/hsuen/Downloads/POLIO_Incidence.csv")
+
+pl <- melt(POLIO_Incidence,id.vars = c("YEAR","WEEK"))
+pl$value<- gsub("-",NA,pl$value)
+pl$value<-as.numeric(pl$value)
+
+pl <- pl %>% group_by(YEAR,variable) %>% summarise(sum=sum(value,na.rm=T))
+ggplot(pl, aes(YEAR, variable)) + geom_tile(aes(fill = sum),colour = "white")+ scale_fill_gradient(low = "white",high = "steelblue") +geom_vline(aes(xintercept=1955),color="#E2C43F",size=2)+annotate("text", x = 1958, y = "NEVADA",color="#CF9546",angle = 90, label = "小兒麻痺疫苗被發明出來")
+  #annotate referance Net: https://ggplot2.tidyverse.org/reference/annotate.html
+
+#practice in class university treemap
+
+library(readr)
+library(tidyr)
+#install.packages("treemap")
+library(treemap)
+
+stData <- read_csv("C:/Users/hsuen/Downloads/107_student.csv")
+
+stFilt<-stData %>% filter(等級別 %in% c("M 碩士","B 學士")&`日間∕進修別`=="D 日") %>% select(-學校代碼,-體系別,-`日間∕進修別`) 
+stGrather<-gather(stFilt,grade,N,-學校名稱,-等級別,-縣市名稱)
+stGrather$N<-as.numeric(stGrather$N)
+
+stGroup<-stGrather %>% group_by(學校名稱,等級別,縣市名稱) %>% summarise(tot=sum(N,na.rm = T))
+
+treemap(stGroup,index = c("縣市名稱","學校名稱","等級別"),vSize="tot")
+
+
+
+

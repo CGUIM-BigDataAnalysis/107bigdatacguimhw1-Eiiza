@@ -1,0 +1,95 @@
+install.packages("ggplot2")
+library(ggplot2)
+
+qplot(Sepal.Length, Sepal.Width, data = iris,color=Species)
+#x軸：Sepal.Length,y軸：Sepal.Width,顏色：Species
+
+qplot(Petal.Width, data = iris,color=Species)
+#單變量：Petal.Width,顏色：Species
+
+qplot(Sepal.Length, Sepal.Width, data = iris,facets = .~Species)
+#x軸：Sepal.Length,y軸：Sepal.Width,子圖：Species，每個Species畫在新的欄位
+
+ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+geom_point()+facet_grid(.~Species)
+#ggplot()畫xy散佈圖,x軸：Sepal.Length,y軸：Sepal.Width,子圖：Species，每個Species畫在新的欄位
+
+ggplot(iris,aes(x=Species,y=Sepal.Width))+geom_boxplot()
+#gplot()做盒狀圖,x軸：Species,y軸：Sepal.Width
+
+ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,color=Species))+geom_line()
+#ggplot()做折線圖,x軸：Sepal.Length,y軸：Sepal.Width,顏色：Species
+
+
+library(dplyr)
+
+airquality$Month<-as.factor(airquality$Month)
+#將Month轉為因子變項
+
+airquality.mean<-airquality%>%group_by(Month)%>%summarise(OzoneMean=mean(Ozone,na.rm = T)) 
+#計算每月Ozone平均
+
+ggplot()+geom_bar(data=airquality.mean,aes(x=Month,y=OzoneMean),stat = "identity") 
+#stat = "identity" 直接畫數字
+
+#errorbar
+
+airquality.stat<-airquality%>%group_by(Month)%>%summarise(OzoneMean=mean(Ozone,na.rm = T),OzoneSD=sd(Ozone,na.rm = T))  
+#計算每月Ozone平均與標準差
+
+ggplot(data=airquality.stat)+ geom_bar(aes(x=Month,y=OzoneMean),stat = "identity")+geom_errorbar(aes(x=Month,ymin=OzoneMean-OzoneSD,ymax=OzoneMean+OzoneSD), width=0.3)
+#ymin低點, ymax高點
+
+#practice in class
+
+library(SportsAnalytics)
+NBA1819<-fetch_NBAPlayerStatistics("18-19")
+library(ggplot2)
+
+ggplot(NBA1819,aes(x=Steals,y=TotalRebounds))+geom_point()+geom_smooth()
+cor(NBA1819$Steals, NBA1819$TotalRebounds)
+
+#practice in class capital
+
+library(ggplot2)
+library(readr)
+
+capital201803 <- read_csv("C:/Users/hsuen/Downloads/capital201803.csv")
+capital201803<-capital201803[c(-1,-2),]
+ggplot(capital201803,aes(x=總計家數,y=總計資本額))+geom_point()+geom_smooth()+ annotate("text", x = 50000, y = 1e+07, label = cor(capital201803$總計家數,capital201803$總計資本額)) 
+
+#practice in class animals
+
+library(ggplot2)
+library(jsonlite)
+
+Animal<-fromJSON("http://data.coa.gov.tw/Service/OpenData/AnimalOpenData.aspx")
+
+anii <-Animal %>% group_by(shelter_name,animal_kind) %>% summarise(num=n()) 
+
+ggplot(anii,aes(x=shelter_name,y=num))+geom_bar(stat = "identity")+facet_grid(.~animal_kind,space = "free_x",scales = "free_x")+theme_classic()+labs(x="收容所",y="待領養動物數量")+coord_flip()
+#coord_flip() rotate x labels
+#+ theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,127 @@
+#final project
+
+install.packages("tmcn")
+
+library(readr)
+library(rvest)
+library(xml2)
+library(dplyr)
+library(tmcn)
+library(ggplot2)
+
+#web scraping TaoYuan Brunch
+TYFood<-c("https://www.instastalker.net/tag/taoyuanbrunch",
+          "https://www.instastalker.net/tag/taoyuancafe",
+          "https://www.instastalker.net/tag/taoyuancafe/QVFCM29sVlBFRnhaRDRDaUlvSUtPMVFWRFpaTElEOVBaNkNwTU9OdGp3LXNFamtYTTVzMGc4UEhaakluSjQzWU40ZGhPOVh0Qmc3YU43WXhVdl9OVEZCNQ==",
+          "https://www.instastalker.net/tag/taoyuan_food",
+          "https://www.instastalker.net/tag/taoyuanfood",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFCZUhyUGU5c3djQzd5a1Q3ZUhoOFZhM18xeURNVUl6c3ZzNlViT0J3cTIxbGhGM1MtZi1lenpELXFhaUhHS0k1ZXp3Z1JVNkh5NUxyZVFsRk1MdEZlUw==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFCam4tLXpOSlhUdkFmYU5McTlsdHRLSm1yUHZHZVVuRGdMbHFqZ1FkSlFTT3hPVDFXMGw0eVRYeldWVWJPY3R6cDBtWFg5ZEhNazM0X2E0WmtFN2xMOA==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFEVzM1M3MzbTRGb0pzWHQyNjFCbk8tXzhDd3hrTHdSU2hqcmJaN1FUeEhyLS03N3JzdmZCWjRhb3lWS0VOcFZJUlNNbzVHRktxb3JzQTJhNkxPNFZTYw==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFBQVlMMjUwWHBHYnk5dEplS1JWX056TF80elVFVEFXT1BrdHdySGdEbVZTZTQwYjZxLVZaVmU2bVlYNTF2bkRrOEV2a2g0dnJERFQ1bGplbFRja3VrYQ==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFCNDZVelJacFZ2cHdoUXlvZGxJS1o3bDM2UWNqUG9FSWNscFFWbnVxejNEa1U0eGVUdE90b0lla0txSmx4U1lUQlprc0h6a2gyYXdSVE1WcklXM2pqSg==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFCNWZ0cG16dFAyQlVaMm9KOVg4eGo1MEpXZGFyLV96RzFodWl3OVBIM3ZGOFlaX0NjMzFDMk00YjlSSnpPSExqdFc1WElDZlR5d0dfZUdxVV9QS2poOA==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFESVJIYkRqencxOVpJOGgwV3M1MlBnenpTQnNwVU1icEtGUjFqYWpfWXUtclp5SWZVTXV3VVhybTA2aHYtRnpDRHFCTm9VZVN4VHdLRFhiNDlINUVpdg==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFBYjZETklyU2JTVWxFMk5YRHR0Q0pPelFGN09fdEE2a252ZXE1MG84bmxZejZ2djFEMXF1djB2UzAwWXNfWFBqYjhJSmx4NkY4bTJfM1F5Tzh6WTdteQ==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFETmhQeGxuLWM5eHgzLXNNSlQ0NllyeGlaZjdMTUVqSmFKbVZZODJ0eWpPb1hmdVNINVNTbnNsdU9kUVdfN0QxRERnZUlUUm9INEw3RE1VWVBHX0pZeg==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFDOEp1ZTlMVlBSLW5lX0JCb2xicGtlUGZPWXZsdjJEVmRJN0Z0cUVCVHdxbThoeWJGZHBxNk1oZ2pvUVVuV1dJbkZHSUZyTGtsT2FnRzBlM0pBU2N6cw==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFCd2FKMWVzczVzSnp4amdlTWpGV2U4Q2lUdnphMV9UR29KX3V0ZVJ1TkhXRjNMa1Y0amhvWDRtc0ZZYTFMVHlxemVqMXRxcnhPbm9fbVl6ekFjSXZkbQ==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFDb3NhZXFoMEN2bXlRNlVSOHVwUl84b3hCZUh0NVVaSUZFSjA2bXRvSHNrUFYxbHlfdFJVS3Y5LWNsbmNSVy1sdlNPYjh3aTVmYUEtSU5qMkNrckw1Yg==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFEQlBXaXk2OV9WalBsWmt6V25tUHlDLVJ6VVlDTnNhd2d6ZVlYSVhiZU1VTkxmSzFwcmxoZ09ZLVhxNjR2TWt5enRwZjNNaGpEMk91bFh3UjhjcXI0Ng==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFENWl0R1B2R1dwSnZ3N1JFYWlfZHg0TENRTTlhT2EtcU1kRzN2U2xPS3BtdkNLcURacER4M2FKeXNSODJjeVFpMFdKLWRkVHQwRWNWbGZsamJQVHNUdw==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFCdUZSX0pmZTFqWktPa254bWVmdXZzamp2OGlyTHRYZGZRcWxrUkxpbVMxRG94VlF5cDF5MXhkQnhENGJhMDBNU3BXSnFEN3NKVUpheFRETzVfSkc1bA==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFENTJSZkREbFpvbEdfQ0hSUGFrXzJoVUxuZEtoRHlUYS1TcFhfeDQzVF9EdVUzcWI5ckxMZjk2aW12NFFPWkhzQzJpT0ZMd0hTOG1hWkhMaEVScE5GVQ==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFBR0MzYkJEOHZ2aTRWOGNoblNwTU55aG00aVZVUnRTNXNZektJNWdLVWQtZ0ZmTXhUdUxyTjkxNnl3SmpmYnZmX3ptMHp1ZzFYbXlxcTZIQjRJNjJ5bg==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFCMm9vVWk5UmNtUTB4cWNzRE8xMkR0MTlPZV9OUnRBakh2cDFMMkJlU05ZN1pFbTlneXVsMmdYVV9uUjd6TFhwZEloSUZZUEQzelctOVJTY2RNX3hleA==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFEVGlVZWZSY1Vjd0tqbkdQdFQ3RnJJcFY2cVR3Z3dEMmd3eXlqQmR4a1dpcHhoSDR1Tk1aTW1Jcmo5NUZVcUhGWUo4RXc0T1k2bkhsYjJ1UjJEMnBpUg==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFDallsdWhDZUNmN1VVdmhnZnFMajJFd0tJa2lWRnRqVTNQUXFmNVVZNzNiVXdMTm93VENLZ3UzV1lIdzRJS2pzekZndEF2QXBmaHd3RTNXNGxmRlpDRQ==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFDdmJiVDFOT2VweTN2eUlXXzZiYnhrNDZ4TGI1NDI2TWtTV3pwSHFUeXo2ZDczZ2J1dV9XQmEzblZxN2Y5VG9tQV96S2xLY2pFZmxOZmdPaDVJbVlNZA==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFBODBqNkQwTFk4QmMyNFlDRU52N3FkVlpuNmp2WEpWZmxzT3pWalplUjY3VlJpQUVOajRvZlVhcFFNNnVmVUxhNTktWFAtU1JRVXRfTWhGYnJBNFdZQg==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFDb21ZREpRbkgtY3lzT1ZkVjZKVEVvQng5cE85RXZQVVNXbk1tbTl3VjREUDY4TC1GMmVQRWxoQnBMRVFZWjg5RVVMZk9xcktaUVV0b0swWTA2UFZwVA==",
+          "https://www.instastalker.net/tag/taoyuanfood/QVFDQW92LU5YUFN4cGJYVzFybEd3Q2VSMjBvckVhZ3pLb3FIZ1RHMGN3VHZJU21OY2NhbkFsTUJaZnluQU1vOGM4QzFlNDBhRWh3TVJhdl9BanRXbE9GcA==",
+          "https://www.instastalker.net/tag/taoyuanfoodie",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFDczNUWlZqQTY3dXM3MzhTZmN6dnc2Qmt4cjBjNlI5Q3JzX09RZUg4Z0prVFZaM24zYVQ1RHFiMEFOM0xuUTc5RkQ5U1VvMmpNTWw3OG5jVm1tOVpFUg==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFEbW9Tdm5GeXFLZDVzRVBxLXU5bzJuWDBrZVhrNnJxRXgyV1pjUXAtR1hieEtFcnIxZzQzeC00c0loZnh2WmtMVFlqM3JlVXl2c09aQk5WaEFYT1FQSg==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFBWUtPU2tlenJJN2FOV3ItUG41NzFsQWpOTUJEb25nNzZOOXpkNjdHVTlwYkVEOThzYWFrN0VCT29XWEJ3SjVCVF9aWGRBVVhjLUNtUlpsZ0dXeEJsLQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFDWDNLVVhuYUVOSGtYZGRLYmptM3JRakdCVzlieWFESnFXd3A1MTJXSnJmMUN5Q2VVUzNGelcwZFpiV0gxMnV1dTg4d0c3SDFVeXR6TzFKaXp3WUxMdQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFCd0c4QnZsQkhqRmZYYm5fbTcwcHlaVk9lMjdpZzNqT1RQdGllVnYwUGhpbE40dEFRTWZXRFdqb0lfcWZrbm04ZVNLVHA5SzBtZTBsYzlEbUdnbWQ1NQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFEVjFic2RnUmx5V2ZKQjB5cGhVMkFGLW0zbUlPUXNjM1FjaG42SFRpS0dBSWhKT0F2QVdXdENUdFowSjhXbGZUUXlWNmR5WElTNUI2dVhpd2paZ1RGeQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFBbk44aEJlNVBqZEVsZ29HRVFXeXhjNENCSGdoRUhqajZJZ21PdkNuRTJoVk9YOGVaeklCdWVOMDFtam1BMjNOaXhOOU9vOV83VW9oRWVVZFNBa3FhTA==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFBX3YxZEpkYjZXM01yRm1vS184RUZ1Q0g0UTFYc21xcFU2cl9tNC1HTTRjd2FXVllyUFBTdnVTaGVrX3VVaC1Vekt5QkxpZmFZNkVaSE42dlUxMTc2Ug==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFEX3hxQkllRDZWZlQzUVZRSWxHOHQxZGZQZWlqSjlWNFg4ZzV3RVBYNlBWYXpjbnF6bG5XYVlLbHVKcWlTTzJwUTBrT19xQmpwSmx5T3JNWHJHUkxCRQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFDcldxSTVXamxYZmREaXVnazJKUzhteG9SaFhfTGtGTlBycmhpNTNQX0c2QUpkZDRyWmVvSWdsUERYSGZSa1VNUGFvR08xODVuYmVLZXNKSkhrSkxKbQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFCZGU1ejBOeTlFMlc4S3VfOFNxQjI4VERidWROUVVWeXd2cnNEZkp5VmxsZ1BCeENjSFY1TG1NRElEZHA5aUd3S2pOaV9nSnhWdmZtR1REOXY2czJEMw==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFETTFOYVFmVUs5cURwSEpSOTd0a2N3YlQ1WlRMd2xaU2tKRm42UVJIUlllTmpUZENIa2VBLVRWLUgtdHJxM1NER0ZMV0d4cF82bGFPdW1kVWxCWkhKQg==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFCTGlTbWxIMW5zWVJ5NUlyazRPVVhITGhWeWs0d3NWX1RrQzl4UThvSTdjbXdQTnFRdkcxa2FUVzMxYkJrOVd2OWQtUDZUN3ZCc1lvNU1hRWoxOV9OTw==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFEdW1pdXV3XzZFSThqOTh4ZmJZSU5aZFhwU050U2pkOEVERnRLYkp0enVyUmhCUnhHUzRTM0JEYmU5SzBkbEFYTS1IWHRncVNhUHkzaXN6bS1kLVJBaQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFEOU9jb1BsUWlaRWxodDZQdHN6YjFERFplMXFMQkVVREVoVlFVWHN3SHJfa19xSGRBZHpyMF9JMG05akpPdnM0R0FjZlZOS3JaRk9UMjcySEVLTWhzSA==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFEbEVWQjBMSHE3Ty1VTzNjR2RPWUZyb0MxSnpQNHlQdUk1MDZnOFJHaEVzTTE1YTlRbWF1VTRLNmZpSU83UDBLUW5uSjRESEI3REFSbElPTmgtdWUzUQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFDTXQzd1hOZW1CMmExX0U5cG50Zk00SjNodzFFMTlpenc1V1l4dUZyNjZLdmRFdWV3ZGZZWFB4c1NEWUt3bG9YZ0huTjhzeFgwUkwtUF9QX0syUUI3Wg==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFDdWJzdm45Z3d0MUVjeEY0dDRnWVFKRm5ZZDhtczBEVmx4UldNY0lIMXBsQ0U5ajFidzlRd1A1VjRZbDZ4Y215cDU0R3pjZ2lnVmZLbTYtTEEzLVBMag==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFBQXM0TEdwaFZOMThVdjhxajUtRnVMUXROaU5BaHo2NzB3cXNrSnRyM2dIX2JjT0xhY19OVnpoYWVCN0c3Q3pMYmQ5OEZMTUxXM1FmQnhfcExPUDlkQg==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFCUEQydkVLOVlGU2IxY1M5UHRkTWxCY1lyaDlqcXA5VXJRRFZfc3Q1UFN6WUY4S01kUi1RdHJFZDJQWldxWnRncnJ3M1FiR1Y1WE5lZVRLaEdMWHRWaA==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFDR3J3ZWFwMjVxVjV6ZHBsdmhkYUpYNjBwdTROVzE3QXdlSElKRk4zd1Q2SXJFUEdqQ0tMTXM4RHR0cXUzSFpIbXdWNnRHOTVpT0FKUTRlMDc2WEE4cw==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFBRWR6Zld3YWNKaksyTF9NUk1WbUp3RHRXVHFOTEtJcWRUTGNNUm5jNE5MS2Zvc09obGM1NldNQjBYcG5wY2lUQXMwQlVoUGxQNlVrY1pwR3JiZFVxWg==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFDV2V1dmVQZUVKUzIwRTRXOVpRd3l6bUo2eEFydFZvbFJfeVlzUnlWTXlQaUJPTHJSWHpUUC1DNGQ4YUtNWWFxRy12YUVINHZjSWxqYzlWSlpDZXYyVQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFCYURXNThTc3l4TlNUYlowdEFXZjFPUEszOUpnY0ZlYlVGU2lJaXlBcjJxZnBFSFZueHpjcDFndTE3VGR3bTZuRXdjY3dIQlZBT3lfTjAtTU1qQWNfLQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFCZnYzaEFfTUJvNGx3cF9QMWFGV1lCSHVXUHVjOGJuXzYtYXhYcWtReWZrUS1xM0hzOTFaVms1SkN3UTY0cFR1SUt0dW1ST2h5ZGVPb3dfN1JUS2pFRA==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFCVjh3aXZqOUczLTZUemlqUXRtejNlOFdDUEVvR0UtX0dDd1F3VjJmbVdvdU9xOFl6R3ZDc1cwNjd2eU9DNWJzRkw0eGpVeEtvRlh1RkVOTFBONFNPdw==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFCUkozQXcxOWFHTVl4R3VHdk1aZkRVVi1HRl9TR2RwNkxncHlyb0xlMzJGRmFSczljM09PN1YtVEc0SFVNTTlPSTB6V2hDSlR4OWZNQlVHZ1dmUjlGdg==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFDc0ptZGY0c3VWLWZINExiMGFKSmRINU1UNnBJVW1nNTZqU2M2LVQ4RU5YRHR4X015SVNYRE56MW5BOGpuSWRoOVgzam5CZXZhQ012eURnZndORmRQbQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFBQXBETnBsV3g4RTFOTWxzUVg1VkdnUUxHZll1VXoxSEY3MGVvWkE4SVFWT2FhT3B6TEFJQy1acVBabTJSeDhYSXpTaE54SjRKb1dINElKNUZjZjFOLQ==",
+          "https://www.instastalker.net/tag/taoyuanfoodie/QVFEUnBsR3RrdkdsNVpEQnJMVzlMVjFNRTRjZlowMDl5U1BtbWRrbi02aDM2Y1JaOXc0UHlwMkx3V2h6NFN4ZWhfR1pzenQxUkhVU19jMGhJRklMNG1WVQ=="
+          )
+TyLocation<-c()
+TyLocationList<-c()
+
+#將網頁裡的地址撈下來
+
+for (num in 1:length(TYFood)) {
+  TyFoodHtml <-read_html(TYFood[num])
+  TyLocation <-TyFoodHtml %>% html_nodes(".posts-author__footer-info a") %>% html_text()
+  TyLocationList<-c(TyLocationList,TyLocation)
+}
+
+#整理地址裡面多餘的\n
+
+TyTestList<-TyLocationList
+TyCleanList<-c()
+
+for (CleanN in 1:length(TyTestList)) {
+  TyCleanList[CleanN]<-strsplit(TyTestList[CleanN],"\n                        |\n                        |\n                    ")[[1]][3]
+}
+
+TyListTable<- data.frame(table(TyCleanList))
+
+#從大到小排列
+ArrangeList<-arrange(TyListTable,desc(Freq))
+HeadList<-ArrangeList %>% head(10)
+
+#將網址粘在一起，放進向量裡
+QueryList<-c()
+
+for (QueryN in 7:length(TyCleanList)) {
+  QueryList[QueryN]<-paste0("https://www.instastalker.net/search?query=",TyCleanList[QueryN])
+}
+
+#想要做抓出他的地址但是抓不到
+#因為她的地址很不固定，而且沒有經緯度沒辦法做出熱度圖
+
+AddList<-c()
+
+for (SearchN in 7:15) {
+  SearchUrl <-read_html(QueryList[SearchN])
+  AddList[SearchN]<-SearchUrl %>% html_nodes(".c-card:nth-child(1)") %>% html_text()
+  AddString[SearchN]<-strsplit(AddList[SearchN],"\n                                    |\n                                    |,|\n\n                                ")
+}
+  
+#將前10名做成長方圖
+
+ggplot(HeadList,aes(x=TyCleanList,y=Freq))+geom_bar(stat="identity",fill="#0B6374")+labs(x="店家名稱",y="貼文數量",title="桃園打卡數前10名店家")+theme_bw()+coord_flip()
+
+
+
+
+
+
+

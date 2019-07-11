@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1560864829657.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "10872758",
+    "lastKnownWriteTime" : 27303570963497060,
+    "last_content_update" : 1560864829657,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "DC06B651",
+        "caption" : "HeadList",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=HeadList&cache_key=DC06B651",
+        "displayedObservations" : "10",
+        "environment" : "",
+        "object" : "HeadList",
+        "preview" : "0",
+        "totalObservations" : "10",
+        "variables" : "3"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

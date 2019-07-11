@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1560864110362.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A49B4102",
+    "lastKnownWriteTime" : 1558964216,
+    "last_content_update" : 1558964216,
+    "path" : "C:/WorkspaceR/TestProject/ExerciseVisualize.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "68,182",
+        "scrollLine" : "59",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

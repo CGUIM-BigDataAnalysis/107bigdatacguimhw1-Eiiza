@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1560864600193.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "12C8215F",
+    "lastKnownWriteTime" : 29555323530706989,
+    "last_content_update" : 1560864600193,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "A7F31391",
+        "caption" : "ArrangeList",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=ArrangeList&cache_key=A7F31391",
+        "displayedObservations" : "391",
+        "environment" : "",
+        "object" : "ArrangeList",
+        "preview" : "0",
+        "totalObservations" : "391",
+        "variables" : "3"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
